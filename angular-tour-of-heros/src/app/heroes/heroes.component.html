@@ -1,8 +1,15 @@
 <!-- <h2>{{hero}} Details</h2> One way data binding. Commented out when changing to an object -->
-<h2>{{hero.name | uppercase}} Details</h2> <!--Uppercase in the interpolation binding after '|' activates the built in UppercasePipe-->
+<!-- <h2>{{hero.name | uppercase}} Details</h2> Uppercase in the interpolation binding after '|' activates the built in UppercasePipe -->
 <!-- <div><span>id: </span>{{hero.id}}</div>
 <div><span>name: </span>{{hero.name}}</div> Commented out for two-way data binding-->
-<div> <!--Two way data binding-->
-    <label for="name">Hero name: </label>
-    <input id="name" [(ngModel)]="hero.name" placeholder="name"> <!-- [()] is Angular's two-way data binding syntax-->
-</div>
+<!-- <div> <label for="name">Hero name: </label><input id="name" [(ngModel)]="hero.name" placeholder="name"> </div> -->
+<h2>My Heroes</h2>
+<ul class="heroes">
+  <li *ngFor="let hero of heroes">
+    <button type="button" (click)="onSelect(hero)" [class.selected]="hero === selectedHero"> <!--Event binding-->
+      <span class="badge">{{hero.id}}</span>
+      <span class="name">{{hero.name}}</span>
+    </button>
+  </li>
+</ul>
+<app-hero-detail [hero]="selectedHero"></app-hero-detail>

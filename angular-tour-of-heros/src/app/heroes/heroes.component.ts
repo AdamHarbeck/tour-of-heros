@@ -1,22 +1,33 @@
 import { Component, OnInit } from '@angular/core';
+
 import { Hero } from '../hero';
+import { HeroService } from '../hero.service';
+import { MessageService } from '../message.service';
 
-@Component({ // Decorator that specifies Angular metadata for the component
-  selector: 'app-heroes', // Components CSS element selector/ HTML element identifier
-  templateUrl: './heroes.component.html', // Location of the component's template file
-  styleUrls: ['./heroes.component.css'] //Locatoi of the component's private CSS styles
+@Component({
+  selector: 'app-heroes',
+  templateUrl: './heroes.component.html',
+  styleUrls: ['./heroes.component.css']
 })
-// Always EXPORT so you can IMPORT it elsewhere
-export class HeroesComponent implements OnInit { 
+export class HeroesComponent implements OnInit {
 
-  hero: Hero = { // Changed to an object of INTERFACE type Hero
-    id: 1,
-    name: 'Windstorm'
+  selectedHero?: Hero;
+
+  heroes: Hero[] = [];
+
+  constructor(private heroService: HeroService, private messageService: MessageService) { }
+
+  ngOnInit(): void {
+    this.getHeroes();
   }
 
-  constructor() { }
-
-  ngOnInit(): void { // Called shortly after creating a component.
+  onSelect(hero: Hero): void {
+    this.selectedHero = hero;
+    this.messageService.add(`HeroesComponent: Selected hero id=${hero.id}`);
   }
 
+  getHeroes(): void {
+    this.heroService.getHeroes()
+        .subscribe(heroes => this.heroes = heroes);
+  }
 }
